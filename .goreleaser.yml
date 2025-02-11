@@ -24,27 +24,24 @@ builds:
       - darwin
     goarch:
       - amd64
-      - "386"
-      - arm
       - arm64
-    ignore:
-      - goos: darwin
-        goarch: "386"
     binary: "{{ .ProjectName }}_v{{ .Version }}"
 
 archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
+sboms:
+  - id: default
+    artifacts: archive
+
 checksum:
   extra_files:
+    - glob: dist/*.sbom.json
     - glob: terraform-registry-manifest.json
       name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
   name_template: "{{ .ProjectName }}_{{ .Version }}_SHA256SUMS"
   algorithm: sha256
-
-sboms:
-  - id: default
 
 signs:
   - id: gpg
@@ -60,17 +57,13 @@ signs:
       - "${artifact}"
     artifacts: checksum
   - id: cosign
-    signature: "${artifact}.sig"
-    certificate: "${artifact}.pem"
     cmd: cosign
     args:
       - sign-blob
-      - --output-signature
-      - "${signature}"
-      - --output-certificate
-      - "${certificate}"
+      - --new-bundle-format
+      - --bundle="${artifact}.sbom.json.bundle"
       - "${artifact}"
-    artifacts: all
+    artifacts: checksum
 
 release:
   extra_files:
