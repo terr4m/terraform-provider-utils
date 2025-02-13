@@ -14,14 +14,14 @@ func TestConsistentHash(t *testing.T) {
 	t.Run("CalculateMapping", func(t *testing.T) {
 		t.Parallel()
 
-		for _, tt := range []struct {
+		for _, d := range []struct {
 			name              string
 			members           []string
 			partitionCount    int
 			replicationFactor int
 			load              float64
 			keys              []string
-			err               bool
+			errMsg            string
 		}{
 			{
 				name:              "empty",
@@ -30,7 +30,7 @@ func TestConsistentHash(t *testing.T) {
 				replicationFactor: DefaultReplicationFactor,
 				load:              DefaultLoad,
 				keys:              []string{},
-				err:               true,
+				errMsg:            "invalid consistent hash configuration: not enough room to distribute partitions",
 			},
 			{
 				name:              "single_member_single_key",
@@ -39,7 +39,7 @@ func TestConsistentHash(t *testing.T) {
 				replicationFactor: DefaultReplicationFactor,
 				load:              DefaultLoad,
 				keys:              []string{"key1"},
-				err:               false,
+				errMsg:            "",
 			},
 			{
 				name:              "single_member_multiple_keys",
@@ -48,7 +48,7 @@ func TestConsistentHash(t *testing.T) {
 				replicationFactor: DefaultReplicationFactor,
 				load:              DefaultLoad,
 				keys:              []string{"key1", "key2", "key3"},
-				err:               false,
+				errMsg:            "",
 			},
 			{
 				name:              "multiple_members_single_key",
@@ -57,7 +57,7 @@ func TestConsistentHash(t *testing.T) {
 				replicationFactor: DefaultReplicationFactor,
 				load:              DefaultLoad,
 				keys:              []string{"key1"},
-				err:               false,
+				errMsg:            "",
 			},
 			{
 				name:              "multiple_members_multiple_keys",
@@ -66,21 +66,22 @@ func TestConsistentHash(t *testing.T) {
 				replicationFactor: DefaultReplicationFactor,
 				load:              DefaultLoad,
 				keys:              []string{"key1", "key2", "key3"},
-				err:               false,
+				errMsg:            "",
 			},
 		} {
-			t.Run(tt.name, func(t *testing.T) {
+			t.Run(d.name, func(t *testing.T) {
 				t.Parallel()
 
-				ch := NewConsistentHash(tt.members, tt.partitionCount, tt.replicationFactor, tt.load)
-				actual, err := ch.CalculateMapping(tt.keys)
+				ch := NewConsistentHash(d.members, d.partitionCount, d.replicationFactor, d.load)
+				actual, err := ch.CalculateMapping(d.keys)
 
-				if !tt.err && err != nil {
-					t.Errorf("expected no error, got %v", err)
+				var errMsg string
+				if err != nil {
+					errMsg = err.Error()
 				}
 
-				if tt.err && err == nil {
-					t.Errorf("expected an error")
+				if errMsg != d.errMsg {
+					t.Errorf("expected error message %s, got %s", d.errMsg, errMsg)
 				}
 
 				actualMembers := make([]string, 0, len(actual))
@@ -89,20 +90,20 @@ func TestConsistentHash(t *testing.T) {
 				}
 
 				for _, v := range actualMembers {
-					if !slices.Contains(tt.members, v) {
+					if !slices.Contains(d.members, v) {
 						t.Errorf("expected member %s to have been configured", v)
 					}
 				}
 
-				actualKeys := make([]string, 0, len(tt.keys))
+				actualKeys := make([]string, 0, len(d.keys))
 				for _, v := range actual {
 					actualKeys = append(actualKeys, v...)
 				}
 
 				slices.Sort(actualKeys)
-				slices.Sort(tt.keys)
-				if !reflect.DeepEqual(actualKeys, tt.keys) {
-					t.Errorf("expected keys to be %v, got %v", tt.keys, actualKeys)
+				slices.Sort(d.keys)
+				if !reflect.DeepEqual(actualKeys, d.keys) {
+					t.Errorf("expected keys to be %v, got %v", d.keys, actualKeys)
 				}
 			})
 		}

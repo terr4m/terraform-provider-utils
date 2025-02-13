@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: read-all
 
 jobs:
@@ -146,3 +150,28 @@ jobs:
           TF_ACC: "1"
           TF_ACC_TERRAFORM_VERSION: ${{ matrix.tf_version }}
         run: go test -v -timeout 120m -cover ./...
+
+  check:
+    name: Check
+    needs:
+      - build
+      - generate
+      - test
+    if: always()
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check
+        run: |
+          set -euo pipefail
+
+          results=( ${{ join(needs.*.result, ' ') }} )
+
+          for result in "${results[@]}"; do
+            if [[ "${result}" == "failure" ]] || [[ "${result}" == "cancelled" ]]; then
+              echo "::error::Workflow failed!"
+              exit 1
+            fi
+          done
