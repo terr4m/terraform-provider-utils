@@ -1,11 +1,11 @@
 ---
 page_title: "utils_consistent_hash (Data Source) - terraform-provider-utils"
-subcategory: "Utility"
+subcategory: ""
 description: |-
   Utils consistent hash TF data source.
 ---
 
-# `utils_consistent_hash` (Data Source)
+# utils_consistent_hash (Data Source)
 
 Utils consistent hash TF data source.
 

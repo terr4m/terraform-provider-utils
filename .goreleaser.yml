@@ -28,16 +28,16 @@ builds:
     binary: "{{ .ProjectName }}_v{{ .Version }}"
 
 archives:
-  - format: zip
+  - formats:
+      - zip
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 sboms:
   - id: default
-    artifacts: archive
+    artifacts: source
 
 checksum:
   extra_files:
-    - glob: dist/*.sbom.json
     - glob: terraform-registry-manifest.json
       name_template: "{{ .ProjectName }}_{{ .Version }}_manifest.json"
   name_template: "{{ .ProjectName }}_{{ .Version }}_SHA256SUMS"
@@ -57,11 +57,13 @@ signs:
       - "${artifact}"
     artifacts: checksum
   - id: cosign
+    signature: "${artifact}.sbom.json.bundle"
     cmd: cosign
     args:
       - sign-blob
       - --new-bundle-format
-      - --bundle="${artifact}.sbom.json.bundle"
+      - --bundle
+      - "${signature}"
       - "${artifact}"
     artifacts: checksum
 

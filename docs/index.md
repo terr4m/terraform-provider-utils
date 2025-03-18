@@ -1,6 +1,6 @@
 ---
 page_title: "Utils Provider - terraform-provider-utils"
-subcategory: "Utility"
+subcategory: ""
 description: |-
   Utils provider.
 ---
