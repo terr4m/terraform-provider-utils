@@ -1,8 +1,6 @@
 module github.com/terr4m/terraform-provider-utils
 
-go 1.23.0
-
-toolchain go1.23.5
+go 1.24
 
 require (
 	github.com/buraksezer/consistent v0.10.0
