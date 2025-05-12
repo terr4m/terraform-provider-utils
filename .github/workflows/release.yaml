@@ -29,13 +29,13 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Go
-        uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5.4.0
+        uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
         with:
           go-version-file: go.mod
           cache: false
 
       - name: Install Syft
-        uses: action-stars/install-tool-from-github-release@ece2623611b240002e0dd73a0d685505733122f6 # v0.2.4
+        uses: action-stars/install-tool-from-github-release@f2e83e089fa618aa7e9fd3452fbcf4fe1598ede2 # v0.2.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           owner: anchore
