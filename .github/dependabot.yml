@@ -16,10 +16,7 @@ updates:
       interval: weekly
 
   - package-ecosystem: gomod
-    directories:
-      - .
-      - /
-      - /tools
+    directories: ["**/*"]
     groups:
       gomod:
         patterns:
