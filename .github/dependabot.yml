@@ -17,8 +17,7 @@ updates:
 
   - package-ecosystem: gomod
     directories:
-      - /
-      - /tools
+      - "**/*"
     groups:
       gomod:
         patterns:
