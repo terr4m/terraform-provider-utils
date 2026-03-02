@@ -1,6 +1,9 @@
 [global]
 disable = ["MD013", "MD028"]
 
+[per-file-ignores]
+".github/pull_request_template.md" = ["MD041"]
+
 [MD024]
 siblings-only = true
 
