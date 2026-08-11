@@ -1,0 +1,55 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - /
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      github-actions-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    commit-message:
+      prefix: deps
+    labels:
+      - dependency-update
+      - dependency-update/github-actions
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: gomod
+    directories:
+      - /
+      - /tools
+    groups:
+      gomod:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+      gomod-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    commit-message:
+      prefix: deps
+    labels:
+      - dependency-update
+      - dependency-update/go
+    schedule:
+      interval: weekly

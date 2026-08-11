@@ -64,5 +64,5 @@ func newConsistent(members []consistent.Member, config consistent.Config) (c *co
 	}()
 
 	c = consistent.New(members, config)
-	return
+	return c, err
 }

@@ -6,12 +6,13 @@ Fixes # (issue)
 
 ## Type of change
 
-Please delete options that are not relevant.
+Please check (replace the `[ ]` with `[x]`) the relevant options.
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update
+- [ ] Chore (non-functional work)
 
 ## Changes Made
 
@@ -26,7 +27,7 @@ Please delete options that are not relevant.
 
 ## Checklist
 
-- [ ] I have read the [CONTRIBUTING](https://github.com/terr4m/terraform-provider-utils/blob/main/CONTRIBUTING.md) document
+- [ ] I have read the [CONTRIBUTING](https://github.com/terr4m/terraform-provider-github/blob/main/CONTRIBUTING.md) document
 - [ ] My code follows the idiomatic Go coding standards
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
