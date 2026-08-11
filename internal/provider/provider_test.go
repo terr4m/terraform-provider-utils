@@ -11,5 +11,5 @@ var testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServe
 	"utils": providerserver.NewProtocol6WithError(New("test", "test")()),
 }
 
-func testAccPreCheck(t *testing.T) {
+func testAccPreCheck(_ *testing.T) {
 }

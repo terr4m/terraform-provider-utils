@@ -14,8 +14,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ datasource.DataSource = &ConsistentHashDataSource{}
-var _ datasource.DataSourceWithValidateConfig = &ConsistentHashDataSource{}
+var (
+	_ datasource.DataSource                   = &ConsistentHashDataSource{}
+	_ datasource.DataSourceWithValidateConfig = &ConsistentHashDataSource{}
+)
 
 // NewConsistentHashDataSource creates a new consistent hash data source.
 func NewConsistentHashDataSource() datasource.DataSource {
@@ -23,8 +25,7 @@ func NewConsistentHashDataSource() datasource.DataSource {
 }
 
 // ConsistentHashDataSource defines the data source implementation.
-type ConsistentHashDataSource struct {
-}
+type ConsistentHashDataSource struct{}
 
 // ConsistentHashDataSourceModel describes the data source data model.
 type ConsistentHashDataSourceModel struct {
@@ -37,12 +38,12 @@ type ConsistentHashDataSourceModel struct {
 }
 
 // Metadata returns the data source metadata.
-func (d *ConsistentHashDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *ConsistentHashDataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = fmt.Sprintf("%s_consistent_hash", req.ProviderTypeName)
 }
 
 // Schema returns the data source schema.
-func (d *ConsistentHashDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *ConsistentHashDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Utils consistent hash TF data source.",
 		Attributes: map[string]schema.Attribute{

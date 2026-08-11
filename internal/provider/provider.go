@@ -12,9 +12,11 @@ import (
 )
 
 // Ensure UtilsProvider satisfies various provider interfaces.
-var _ provider.Provider = &UtilsProvider{}
-var _ provider.ProviderWithFunctions = &UtilsProvider{}
-var _ provider.ProviderWithEphemeralResources = &UtilsProvider{}
+var (
+	_ provider.Provider                       = &UtilsProvider{}
+	_ provider.ProviderWithFunctions          = &UtilsProvider{}
+	_ provider.ProviderWithEphemeralResources = &UtilsProvider{}
+)
 
 // New returns a new provider implementation.
 func New(version, commit string) func() provider.Provider {
@@ -33,8 +35,7 @@ type UtilsProviderData struct {
 }
 
 // UtilsProviderModel describes the provider data model.
-type UtilsProviderModel struct {
-}
+type UtilsProviderModel struct{}
 
 // UtilsProvider defines the provider implementation.
 type UtilsProvider struct {
@@ -42,12 +43,12 @@ type UtilsProvider struct {
 	commit  string
 }
 
-func (p *UtilsProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+func (p *UtilsProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
 	resp.TypeName = "utils"
 	resp.Version = p.version
 }
 
-func (p *UtilsProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *UtilsProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Utils provider.",
 	}
@@ -80,20 +81,20 @@ func (p *UtilsProvider) Configure(ctx context.Context, req provider.ConfigureReq
 	resp.ResourceData = providerData
 }
 
-func (p *UtilsProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *UtilsProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewConsistentHashDataSource,
 	}
 }
 
-func (p *UtilsProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
+func (p *UtilsProvider) EphemeralResources(_ context.Context) []func() ephemeral.EphemeralResource {
 	return []func() ephemeral.EphemeralResource{}
 }
 
-func (p *UtilsProvider) Functions(ctx context.Context) []func() function.Function {
+func (p *UtilsProvider) Functions(_ context.Context) []func() function.Function {
 	return []func() function.Function{}
 }
 
-func (p *UtilsProvider) Resources(ctx context.Context) []func() resource.Resource {
+func (p *UtilsProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{}
 }
