@@ -1,0 +1,13 @@
+// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,
+// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
+{
+  "terminal": {
+    "env": {
+      "TF_ACC": "1",
+      "TF_ACC_PROVIDER_NAMESPACE": "terr4m",
+      "TF_ACC_TERRAFORM_PATH": "C:\\Users\\hipwells\\scoop\\apps\\terraform\\current\\terraform.exe",
+    },
+  },
+}

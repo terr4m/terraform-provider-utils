@@ -27,8 +27,7 @@ func main() {
 		Debug:   debug,
 	}
 
-	err := providerserver.Serve(context.Background(), provider.New(version, commit), opts)
-	if err != nil {
+	if err := providerserver.Serve(context.Background(), provider.New(version, commit), opts); err != nil {
 		log.Fatal(err.Error())
 	}
 }

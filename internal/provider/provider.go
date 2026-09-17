@@ -50,7 +50,7 @@ func (p *UtilsProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *UtilsProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Utils provider.",
+		MarkdownDescription: "Provider to support generic patterns.",
 	}
 }
 
