@@ -5,14 +5,17 @@ description: |-
 {{ .Summary | plainmarkdown | trimspace | prefixlines "  " }}
 ---
 
-# {{.Type}}: `{{.Name}}`
+# {{.Type}}: {{.Name}}
 
 {{ .Description | trimspace }}
 
-{{ if .HasExample -}}
+{{ if .HasExamples -}}
 ## Example Usage
 
-{{tffile .ExampleFile }}
+{{- range .ExampleFiles }}
+
+{{ tffile . }}
+{{- end }}
 {{- end }}
 
 ## Signature
@@ -22,6 +25,6 @@ description: |-
 ## Arguments
 
 {{ .FunctionArgumentsMarkdown }}
-{{ if .HasVariadic -}}
+{{- if .HasVariadic }}
 {{ .FunctionVariadicArgumentMarkdown }}
 {{- end }}

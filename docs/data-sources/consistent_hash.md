@@ -2,19 +2,30 @@
 page_title: "utils_consistent_hash (Data Source) - terraform-provider-utils"
 subcategory: ""
 description: |-
-  Utils consistent hash TF data source.
+  Data source to configure a hash ring that provides a consistent hashing function which simultaneously achieves both uniformity and consistency.
 ---
 
 # utils_consistent_hash (Data Source)
 
-Utils consistent hash TF data source.
+Data source to configure a hash ring that provides a consistent hashing function which simultaneously achieves both uniformity and consistency.
 
 ## Example Usage
 
 ```terraform
+locals {
+  targets = ["target1", "target2", "target3"]
+  payload = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+}
+
 data "utils_consistent_hash" "example" {
-  members = ["member1", "member2", "member3"]
-  keys    = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+  members = local.targets
+  keys    = local.payload
+}
+
+resource "terraform_data" "example" {
+  for_each = toset(local.targets)
+
+  input = data.utils_consistent_hash.example.mapping.members[each.key]
 }
 ```
 
@@ -23,15 +34,17 @@ data "utils_consistent_hash" "example" {
 
 ### Required
 
-- `keys` (Set of String) The keys of the consistent hash.
-- `members` (Set of String) The members of the consistent hash.
-
-### Optional
-
-- `load` (Number) The load factor to use for hashing.
-- `partition_count` (Number) The number of partitions to use for hashing.
-- `replication_factor` (Number) The number of replicas to use for hashing.
+- `keys` (Set of String) Keys to hash with the hash ring.
+- `members` (Set of String) Members to configure the hash ring for.
 
 ### Read-Only
 
-- `mapping` (Map of Set of String) The mapping of keys to members.
+- `mapping` (Attributes) Mapping between the keys and the members of the hash ring. (see [below for nested schema](#nestedatt--mapping))
+
+<a id="nestedatt--mapping"></a>
+### Nested Schema for `mapping`
+
+Read-Only:
+
+- `keys` (Map of String) Mapping of keys to members.
+- `members` (Map of Set of String) Mapping of members to keys.

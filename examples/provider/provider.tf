@@ -1,2 +1,1 @@
-provider "utils" {
-}
+provider "utils" {}

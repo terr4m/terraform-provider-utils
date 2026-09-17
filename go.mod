@@ -3,7 +3,7 @@ module github.com/terr4m/terraform-provider-utils
 go 1.26
 
 require (
-	github.com/buraksezer/consistent v0.10.0
+	github.com/buraksezer/consistent v1.1.0
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0
